@@ -1,0 +1,30 @@
+#!/bin/bash
+
+read -p "Enter the base image (e.g., python:3.9): " BASE_IMAGE
+
+read -p "Enter the working directory inside the container (e.g., /app): " WORKDIR
+
+read -p "Enter the source files or directory to copy into the container (e.g., .): " SOURCE
+read -p "Enter the target directory inside the container for the copy (e.g., /app): " TARGET
+
+read -p "Enter the RUN command(s) (e.g., pip install -r requirements.txt): " RUN_CMD
+
+read -p "Enter the ENTRYPOINT command (e.g., python3): " ENTRYPOINT
+
+read -p "Enter the CMD arguments (e.g., app.py): " CMD
+
+cat <<EOF > Dockerfile
+FROM $BASE_IMAGE
+
+WORKDIR $WORKDIR
+
+COPY $SOURCE $TARGET
+
+RUN $RUN_CMD
+
+ENTRYPOINT ["$ENTRYPOINT"]
+
+CMD ["$CMD"]
+EOF
+
+echo "Dockerfile has been created!"
